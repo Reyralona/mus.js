@@ -34,9 +34,34 @@ INTERVALS = [
     "aug15"]
 
 
-KEYSTRUCTURES = {
-    "MAJOR": [2, 2, 1, 2, 2, 2, 1],
-    "MINOR": [2, 1, 2, 2, 1, 2, 1],
+// KEYSTRUCTURES = {
+//     "MAJOR": [2, 2, 1, 2, 2, 2, 1],
+//     "MINOR": [2, 1, 2, 2, 1, 2, 1],
+// }
+
+SCALES = {
+    'ionian pentatonic'     : ['u', 'maj3', 'p4'  , 'p5'  , 'maj7', 'oct'],
+    'dorian pentatonic'     : ['u', 'maj2', 'min3', 'p5'  , 'maj6', 'oct'],
+    'phrygian pentatonic'   : ['u', 'min2', 'p4'  , 'p5'  , 'min7', 'oct'],
+    'lydian pentatonic'     : ['u', 'maj2', 'maj3', 'trit', 'maj6', 'oct'],
+    'mixolydian pentatonic' : ['u', 'maj3', 'p4'  , 'p5'  , 'min7', 'oct'],
+    'locrian pentatonic'    : ['u', 'min3', 'p4'  , 'trit', 'min7', 'oct'],
+    'minor pentatonic'      : ['u', 'min3', 'p4'  , 'p5'  , 'min7', 'oct'],
+    'major pentatonic'      : ['u', 'maj2', 'maj3', 'p5'  , 'maj6', 'oct'],
+    'major'                 : ['u', 'maj2', 'maj3', 'p4'  , 'p5'  , 'maj6', 'maj7',  'oct'],
+    'minor'                 : ['u', 'maj2', 'min3', 'p4'  , 'p5'  , 'min6'  , 'min7',  'oct'],
+    'harmonic minor'        : ['u', 'maj2', 'min3', 'p4'  , 'p5'  , 'min6'  , 'maj7',  'oct'],
+    'melodic minor'         : ['u', 'maj2', 'min3', 'p4'  , 'p5'  , 'maj6', 'maj7',  'oct'],
+    'dorian'                : ['u', 'maj2', 'min3', 'p4'  , 'p5'  , 'maj6', 'min7',  'oct'],
+    'phrygian'              : ['u', 'min2', 'min3', 'p4'  , 'p5'  , 'min6'  , 'min7',  'oct'],
+    'lydian'                : ['u', 'maj2', 'maj3', 'trit', 'p5'  , 'maj6', 'maj7',  'oct'],
+    'mixolydian'            : ['u', 'maj2', 'maj3', 'p4'  , 'p5'  , 'maj6', 'min7',  'oct'],
+    'locrian'               : ['u', 'min2', 'min3', 'p4'  , 'trit', 'min6'  , 'min7',  'oct'],
+}
+
+
+function title(str){
+    return str[0].toUpperCase() + str.slice(1, str.length)
 }
 
 function repeat(list, times){
@@ -65,39 +90,57 @@ function fEven(start, n){
     return out
 }
 
-function getChromaticFromNote(tonic, octaves){
+function getChromaticFromNote(tonic, acc, octaves){
     if (octaves == undefined){
         octaves = 1
     }
 
-    let chromscale = eval(`CHROMATICS.${accidents}`)
+
+    if (tonic.length == 1){
+        if (acc == "FLATS"){
+            tonic = tonic + "b"
+        } else if (acc == "SHARPS"){
+            tonic = tonic + "#"
+        } else {
+            acc = "SHARPS"
+        }
+    }
+
+    let chromscale = eval(`CHROMATICS.${acc}`)
     let index = chromscale.indexOf(tonic)
     let out = chromscale.slice(index).concat(chromscale.slice(0, index))
+
+    console.log(out)
+    console.log(tonic)
 
     return repeat(out, octaves)
 }
 
 function getKeyNotes(chromscale, struct){
     if (struct == undefined){
-        struct = "MAJOR"
+        struct = "major"
     }
 
     let ind = 0
     let notes = []
-    let st = eval(`KEYSTRUCTURES.${struct}`)
+    // let st = eval(`KEYSTRUCTURES.${struct}`)
+    let st = eval(`SCALES.${struct}`)
 
-    for(dif in st){
-        let val = st[Number(dif)]
-        notes.push(chromscale[ind])
-        ind = ind + Number(val)
+    // for(dif in st){
+    //     let val = st[Number(dif)]
+    //     notes.push(chromscale[ind])
+    //     ind = ind + Number(val)
         
-    }
+    // }
 
+    for(each in st){
+        notes.push(chromscale[INTERVALS.indexOf(st[each])])
+    }
     return notes
 }
 
 function getKeyChords(key, notenum){
-    if (notenum == undefined){
+    if (notenum == undefined || notenum == 0){
         notenum = 3
     }
 
@@ -107,7 +150,7 @@ function getKeyChords(key, notenum){
 
     for(let i = 0; i < 7; i++){
         for (j in rng){
-            outlist.push(key[i + rng[j]])
+            outlist.push(title(key[i + rng[j]]))
         }
     }
 
@@ -147,34 +190,67 @@ function getIntervalsBetweenNotes(notelist){
     return outlist
 }
 
-console.log("A#".slice(-1))
-var accidents;
+// function sharporflat(tonic){
+//     if (tonic == 2){
+//         accidents = tonic.slice(-1)
+//         if (accidents == "#"){
+//             accidents = "SHARPS"
+//         } else if (accidents == "b"){
+//             accidents = "FLATS"
+//         }
+//     } else {
+//         accidents = "SHARPS"
+//     }
 
-tonic = document.querySelector("#tonic")
-mode = document.querySelector("#mode")
-numnotes = document.querySelector("#numnotes")
-genbutton = document.querySelector("#generate")
+//     return accidents
+// }
+
+function sharporflat(str){
+    if (str == "FLATS"){
+        return "♭"
+    }
+    else if (str == "SHARPS"){
+        return "♯"
+    }
+    else if (str == "NAT"){
+        return "♮"
+    }
+}
+
+var accidents;
+var tonic = document.querySelector("#tonic")
+var mode = document.querySelector("#mode")
+var numnotes = document.querySelector("#numnotes")
+var genbutton = document.querySelector("#generate")
+var result = document.querySelector("#resultbox")
+var acc = document.querySelector("#accidents")
 
 function updateValues() {
 
-    if (tonic.value.length == 2){
-        accidents = tonic.value.slice(-1)
-        if (accidents == "#"){
-            accidents = "SHARPS"
-        } else if (accidents == "b"){
-            accidents = "FLATS"
-        }
-    } else {
-        accidents = "SHARPS"
-    }
+    result.style.display = "inline-block"
 
-    let chromscale = getChromaticFromNote(tonic.value, 4)
-    let key = getKeyNotes(chromscale, mode.value.toUpperCase())
-    console.log(getKeyChords(key, numnotes.value))
+    // accidents = sharporflat(tonic.value)
+    let accidents = acc.value
+    let chromscale = getChromaticFromNote(tonic.value, accidents, 4)
+    
+    let key = getKeyNotes(chromscale, mode.value) 
+    let keyChords = getKeyChords(key, numnotes.value)
+
+    result.innerHTML += `<div style="text-align: center"> ${title(tonic.value)}${sharporflat(acc.value)} ${mode.value} </div>`
+    for(let i = 0; i < keyChords.length; i++){
+        
+        result.innerHTML += `<div style="letter-spacing: 2px" > ${i + 1}º : ${keyChords[i].join(" - ")} <br></div>`
+    }
+   
 
 }
 
+function clearbox(){
+    result.innerText = ""
+}
+
 genbutton.onclick = () =>{
+    clearbox()
     updateValues()
 }
 

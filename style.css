@@ -1,0 +1,62 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background: rgb(8, 8, 8);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    font-family: monospace;
+    /* font-size: 20px; */
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.bradius{
+    border-radius: 5px;
+    outline: 0px;
+    border: 0px;
+}
+
+#numnotes{
+    width: 26%;
+    padding: 10px;
+    font-family: monospace;
+}
+
+select{
+    padding: 5px;
+    font-family: monospace;
+}
+
+#accidents{
+    font-size: 20px;
+}
+
+button{
+    padding: 5px;
+    font-family: monospace;
+}
+
+button:hover{
+    cursor: pointer;
+    color: rgb(167, 167, 167);
+}
+
+.resultbox{
+    background-color: white;
+    color: black;
+    padding: 10px;
+    text-align: left;
+    display: none;
+}

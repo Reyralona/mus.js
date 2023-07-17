@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
-    <select name="tonic" id="tonic">
-        <option value="">Tonic</option>
-        <option value="c">C</option>        
-        <option value="c#">C#</option>
-        <option value="db">Db</option>
-        <option value="d">D</option>
-        <option value="d#">D#</option>
-        <option value="eb">Eb</option>
-        <option value="e">E</option>
-        <option value="f">F</option>
-        <option value="f#">F</option>
-        <option value="gb">Gb</option>
-        <option value="g">G</option>
-        <option value="g#">G#</option>
-        <option value="ab">Ab</option>
-        <option value="a">A</option>
-        <option value="a#">A#</option>
-        <option value="bb">Bb</option>
-        <option value="b">B</option>    
-    </select>
+    <div class="container">
+        <select class="bradius" name="tonic" id="tonic">
+            <option class="bradius" value="">Tonic</option>
+            <option class="bradius" value="c">C</option>
+            <option class="bradius" value="d">D</option>
+            <option class="bradius" value="e">E</option>
+            <option class="bradius" value="f">F</option>
+            <option class="bradius" value="g">G</option>
+            <option class="bradius" value="a">A</option>
+            <option class="bradius" value="b">B</option>
+        </select>
 
-    <select name="mode" id="mode">
-        <option value="major">Major</option>
-        <option value="minor">Minor</option>
-        <option value="dorian">Dorian</option>
-        <option value="phrygian">Phrygian</option>
-        <option value="lydian">Lydian</option>
-        <option value="mixolydian">Mixolydian</option>
-        <option value="locrian">Locrian</option>
-    </select>
+        <select class="bradius" name="accidents" id="accidents">
+            <option value="NAT">♮</option>
+            <option value="FLATS">♭</option>
+            <option value="SHARPS">♯</option>
+        </select>
 
-    <input type="number" name="numnotes" id="numnotes" placeholder="Notes (1 - 10)">
-    
-    <button id="generate">Generate</button>
+        <select class="bradius" name="mode" id="mode">
+            <option class="bradius" value="major">Major</option>
+            <option class="bradius" value="minor">Minor</option>
+            <option class="bradius" value="dorian">Dorian</option>
+            <option class="bradius" value="phrygian">Phrygian</option>
+            <option class="bradius" value="lydian">Lydian</option>
+            <option class="bradius" value="mixolydian">Mixolydian</option>
+            <option class="bradius" value="locrian">Locrian</option>
+        </select>
 
+        <input class="bradius" type="number" name="numnotes" id="numnotes" placeholder="Notes (1 - 10)">
+
+        <button class="bradius" id="generate">Generate</button>
+    </div>
+    <div id="resultbox" class="resultbox bradius"></div>
     <script src="main.js"></script>
 
 </body>
+
 </html>
